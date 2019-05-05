@@ -55,42 +55,34 @@ class Grant(db.Model):
     __tablename__ = 'grant'
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=False)
+    project = db.Column(db.String, nullable=False)
     organization = db.Column(db.String, nullable=False)
     deadline = db.Column(db.String, nullable=False)
-    description_g = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, nullable=False)
     assignments = db.relationship('Assignment', cascade='delete')
     users = db.relationship("User", secondary=association_table, back_populates="grants")
 
     def __init__(self, **kwargs):
         self.amount = kwargs.get('amount','')
-        self.name = kwargs.get('name','')
+        self.project = kwargs.get('project','')
         self.organization = kwargs.get('organization','')
         self.deadline = kwargs.get('deadline','')
-        self.description_g = kwargs.get('description','')
-        self.url = kwargs.get('url','')
 
     def serialize(self):
         return {
             'id': self.id,
             'amount': self.amount,
-            'name': self.name,
+            'project': self.project,
             'organization': self.organization,
-            'deadline': self.deadline,
-            'description': self.description_g,
-            'url': self.url
+            'deadline': self.deadline
         }
 
     def extended_serialize(self):
         return {
             'id': self.id,
             'amount': self.amount,
-            'name': self.name,
+            'project': self.project,
             'organization': self.organization,
             'deadline': self.deadline,
-            'description': self.description_g,
-            'url': self.url,
             'assignments': [assignment.serialize() for assignment in self.assignments if assignment.id > 0],
             'students': [student.serialize() for student in self.users if student.type_ == "student"],
             'non-student': [instructor.serialize() for instructor in self.users if instructor.type_ != "student"]

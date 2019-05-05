@@ -110,11 +110,9 @@ def create_grant():
     
     grant_ = Grant(
         amount = grant_body.get('amount'),
-        name = grant_body.get('name'),
+        project = grant_body.get('project'),
         organization = grant_body.get('organization'),
-        deadline = grant_body.get('deadline'),
-        description_g = grant_body.get('description'),
-        url = grant_body.get('url')
+        deadline = grant_body.get('deadline')
     )
     db.session.add(grant_)
     db.session.commit()
