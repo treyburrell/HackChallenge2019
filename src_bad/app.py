@@ -1,6 +1,6 @@
 import json
 from flask import Flask, request
-from db import db, Post, Comment, Grant, Assignment, User
+from db import db, Post, Comment, Class, Assignment, User
 
 app = Flask(__name__)
 db_filename = 'todo.db'
@@ -96,51 +96,47 @@ def create_comment(post_id):
     return json.dumps({'success': True, 'data': 
     comment.serialize()}), 201
 
-@app.route('/api/grants/')
-def get_grants():
-    grants = Grant.query.all()
+@app.route('/api/classes/')
+def get_classes():
+    classes = Class.query.all()
 
-    res = {'success': True, 'data': [grant_.extended_serialize() for grant_ in grants]
+    res = {'success': True, 'data': [class_.extended_serialize() for class_ in classes]
     }
     return json.dumps(res), 200
 
-@app.route('/api/grants/', methods=['POST'])
-def create_grant():
-    grant_body = json.loads(request.data)
+@app.route('/api/classes/', methods=['POST'])
+def create_class():
+    class_body = json.loads(request.data)
     
-    grant_ = Grant(
-        amount = grant_body.get('amount'),
-        name = grant_body.get('name'),
-        organization = grant_body.get('organization'),
-        deadline = grant_body.get('deadline'),
-        description_g = grant_body.get('description'),
-        url = grant_body.get('url')
+    class_ = Class(
+        code = class_body.get('code'),
+        name = class_body.get('name')
     )
-    db.session.add(grant_)
+    db.session.add(class_)
     db.session.commit()
    
     return json.dumps({'success': True, 'data': 
-    grant_.extended_serialize()}), 201
+    class_.extended_serialize()}), 201
 
-@app.route('/api/grant/<int:grant_id>/')
-def get_grant(grant_id):
-    grant_ = Grant.query.filter_by(id=grant_id).first()
-    if grant_ is None:
+@app.route('/api/class/<int:class_id>/')
+def get_class(class_id):
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is None:
         return json.dumps({'success': False, 'error': 
-        'Grant not found!'}), 404
+        'Class not found!'}), 404
     return json.dumps({'success': True, 'data': 
-    grant_.extended_serialize()}), 200
+    class_.extended_serialize()}), 200
 
-@app.route('/api/grant/<int:grant_id>/', methods=['DELETE'])
-def delete_grant(grant_id):
-    grant_ = Grant.query.filter_by(id=grant_id).first()
-    if grant_ is not None:
-        db.session.delete(grant_)
+@app.route('/api/class/<int:class_id>/', methods=['DELETE'])
+def delete_class(class_id):
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is not None:
+        db.session.delete(class_)
         db.session.commit()
         return json.dumps({'success': True, 'data': 
-        grant_.extended_serialize()}), 200
+        class_.extended_serialize()}), 200
     return json.dumps({'success': False, 'error': 
-    'Grant not found!'}), 404
+    'Class not found!'}), 404
 
 @app.route('/api/users/', methods=['POST'])
 def create_user():
@@ -148,11 +144,7 @@ def create_user():
     
     user = User(
         name = user_body.get('name'),
-        netid = user_body.get('netid'),
-        year = user_body.get('year'),
-        gender = user_body.get('gender'),
-        ethnicity = user_body.get('ethnicity'),
-        type_ = user_body.get('type')
+        netid = user_body.get('netid')
     )
     db.session.add(user)
     db.session.commit()
@@ -169,12 +161,12 @@ def get_user(user_id):
     return json.dumps({'success': True, 'data': 
     user.serialize()}), 200
 
-@app.route('/api/grant/<int:grant_id>/add/', methods=['POST'])
-def add_user(grant_id):
-    grant_ = Grant.query.filter_by(id=grant_id).first()
-    if grant_ is None:
+@app.route('/api/class/<int:class_id>/add/', methods=['POST'])
+def add_user(class_id):
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is None:
         return json.dumps({'success': False, 'error': 
-        'Grant not found!'}), 404
+        'Class not found!'}), 404
     user_body = json.loads(request.data)
     user_id = user_body.get('user_id')
     user = User.query.filter_by(id=user_id).first()
@@ -182,40 +174,40 @@ def add_user(grant_id):
         return json.dumps({'success': False, 'error': 
         'User not found!'}), 404
     user.type_ = user_body.get('type')
-    grant_.users.append(user)
+    class_.users.append(user)
     db.session.add(user)
     db.session.commit()
     return json.dumps({'success': True, 'data': 
-    grant_.extended_serialize()}), 200
+    class_.extended_serialize()}), 200
 
-@app.route('/api/grant/<int:grant_id>/assignments/')
-def get_assignments(grant_id):
-    grant_ = Grant.query.filter_by(id=grant_id).first()
-    if grant_ is None:
+@app.route('/api/class/<int:class_id>/assignments/')
+def get_assignments(class_id):
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is None:
         return json.dumps({'success': False, 'error': 
-        'Grant not found!'}), 404
-    assignments = [assignment.serialize() for assignment in grant_.assignments]
+        'Class not found!'}), 404
+    assignments = [assignment.serialize() for assignment in class_.assignments]
     return json.dumps({'success': True, 'data': 
     assignments}), 200
 
-@app.route('/api/grant/<int:grant_id>/assignment/', methods=['POST'])
-def create_assignment(grant_id):
-    grant_ = Grant.query.filter_by(id=grant_id).first()
-    if grant_ is None:
+@app.route('/api/class/<int:class_id>/assignment/', methods=['POST'])
+def create_assignment(class_id):
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is None:
         return json.dumps({'success': False, 'error': 
-        'Grant not found!'}), 404
+        'Class not found!'}), 404
     assignment_body = json.loads(request.data)
     assignment = Assignment(
         description = assignment_body.get('description'),
         due_date = assignment_body.get('due_date'),
-        grant_id = grant_.id
+        class_id = class_.id
     )
-    grant_.assignments.append(assignment)
+    class_.assignments.append(assignment)
     db.session.add(assignment)
     db.session.commit()
-    grant_ = Grant.query.filter_by(id=grant_id).first()
+    class_ = Class.query.filter_by(id=class_id).first()
     return json.dumps({'success': True, 'data': 
-    assignment.extended_serialize(grant_)}), 201
+    assignment.extended_serialize(class_)}), 201
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

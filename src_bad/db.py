@@ -47,53 +47,37 @@ class Comment(db.Model):
         }
 
 association_table = db.Table('association', db.Model.metadata,
-    db.Column('grant_id', db.Integer, db.ForeignKey('grant.id')),
+    db.Column('class_id', db.Integer, db.ForeignKey('class.id')),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
 
-class Grant(db.Model):
-    __tablename__ = 'grant'
+class Class(db.Model):
+    __tablename__ = 'class'
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.String, nullable=False)
+    code = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
-    organization = db.Column(db.String, nullable=False)
-    deadline = db.Column(db.String, nullable=False)
-    description_g = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, nullable=False)
     assignments = db.relationship('Assignment', cascade='delete')
-    users = db.relationship("User", secondary=association_table, back_populates="grants")
+    users = db.relationship("User", secondary=association_table, back_populates="classes")
 
     def __init__(self, **kwargs):
-        self.amount = kwargs.get('amount','')
+        self.code = kwargs.get('code','')
         self.name = kwargs.get('name','')
-        self.organization = kwargs.get('organization','')
-        self.deadline = kwargs.get('deadline','')
-        self.description_g = kwargs.get('description','')
-        self.url = kwargs.get('url','')
 
     def serialize(self):
         return {
             'id': self.id,
-            'amount': self.amount,
-            'name': self.name,
-            'organization': self.organization,
-            'deadline': self.deadline,
-            'description': self.description_g,
-            'url': self.url
+            'code': self.code,
+            'name': self.name
         }
 
     def extended_serialize(self):
         return {
             'id': self.id,
-            'amount': self.amount,
+            'code': self.code,
             'name': self.name,
-            'organization': self.organization,
-            'deadline': self.deadline,
-            'description': self.description_g,
-            'url': self.url,
             'assignments': [assignment.serialize() for assignment in self.assignments if assignment.id > 0],
             'students': [student.serialize() for student in self.users if student.type_ == "student"],
-            'non-student': [instructor.serialize() for instructor in self.users if instructor.type_ != "student"]
+            'instructors': [instructor.serialize() for instructor in self.users if instructor.type_ == "instructor"]
         }
 
 class Assignment(db.Model):
@@ -101,12 +85,12 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String, nullable=False)
     due_date = db.Column(db.Integer, nullable=False)
-    grant_id = db.Column(db.Integer, db.ForeignKey('grant.id'), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey('class.id'), nullable=False)
 
     def __init__(self, **kwargs):
         self.description = kwargs.get('description','')
         self.due_date = kwargs.get('due_date',0)
-        self.grant_id = kwargs.get('grant_id')
+        self.class_id = kwargs.get('class_id')
 
     def serialize(self):
         return {
@@ -115,12 +99,12 @@ class Assignment(db.Model):
             'due_date': self.due_date
         }
 
-    def extended_serialize(self, grant_):
+    def extended_serialize(self, class_):
         return {
             'id': self.id,
             'description': self.description,
             'due_date': self.due_date,
-            'grant': grant_.serialize()
+            'class': class_.serialize()
         }
 
 class User(db.Model):
@@ -128,26 +112,17 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     netid = db.Column(db.String, nullable=False)
-    year = db.Column(db.String, nullable=False)
-    gender = db.Column(db.String, nullable=False)
-    ethnicity = db.Column(db.String, nullable=False)
     type_ = db.Column(db.String, nullable=False)
-    grants = db.relationship("Grant", secondary=association_table, back_populates="users")
+    classes = db.relationship("Class", secondary=association_table, back_populates="users")
 
     def __init__(self, **kwargs):
         self.name = kwargs.get('name','')
         self.netid = kwargs.get('netid','')
-        self.year = kwargs.get('year','')
-        self.gender = kwargs.get('gender','')
-        self.ethnicity = kwargs.get('ethnicity','')
         self.type_ = kwargs.get('type','')
 
     def serialize(self):
         return {
             'id': self.id,
             'name': self.name,
-            'netid': self.netid,
-            'year': self.year,
-            'gender': self.gender,
-            'ethnicity': self.ethnicity
+            'netid': self.netid
         }
