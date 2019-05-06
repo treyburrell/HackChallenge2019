@@ -6,8 +6,9 @@ target 'Cornell Grant APP' do
   use_frameworks!
 
   # Pods for Cornell Grant APP
-	pod 'Hero'
+
 	pod 'Alamofire'
 	pod 'SnapKit'
+
 
 end
