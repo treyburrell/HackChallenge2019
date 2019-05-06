@@ -30,8 +30,8 @@ class HomeViewController: UIViewController {
         
         
         let g1 = HomeGrant( Grantname: "STEINER", Grantorg: "CORNELL", Grantamt: "$2", Grantdue: "may 2020")
-        let g2 = HomeGrant( Grantname: "selwyn", Grantorg: "North", Grantamt: "2002", Grantdue: "may 2020")
-        let g3 = HomeGrant( Grantname: "shelby", Grantorg: "North", Grantamt: "2002", Grantdue: "may 2020")
+        let g2 = HomeGrant( Grantname: "Selwyn", Grantorg: "North", Grantamt: "$3", Grantdue: "may 2020")
+        let g3 = HomeGrant( Grantname: "Shelby", Grantorg: "North", Grantamt: "$4", Grantdue: "may 2020")
         
             homeLabel = UILabel()
             homeLabel.text = "Below you can find the grants that we've recommended for you. If you want to search through our entire list, use the search tab"
@@ -68,6 +68,7 @@ class HomeViewController: UIViewController {
             view.addSubview(collectionView)
             setUpConstraints()
             getGrants()
+//            getGrants2()
         }
     
     func setUpConstraints() {
@@ -97,6 +98,16 @@ class HomeViewController: UIViewController {
         }
     }
 }
+//        func getGrants2() {
+//            NetworkManager.getGrants2 { homecell in
+//                self.homecell = homecell
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                }
+//        }
+//    }
+//}
+
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionreuseIdentifier, for: indexPath) as! HomePageCollectionViewCell

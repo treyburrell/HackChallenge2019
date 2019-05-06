@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7482122B40538C1C8B063C36 /* Pods_Cornell_Grant_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33072A85207F578A55A750E /* Pods_Cornell_Grant_APP.framework */; };
+		D420FEE2227FDB84008C5D20 /* output.json in Resources */ = {isa = PBXBuildFile; fileRef = D420FEE1227FDB84008C5D20 /* output.json */; };
 		D42F3C7A2270E73F00645E41 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3C792270E73F00645E41 /* TabViewController.swift */; };
 		D44F67672273D1E700CA8E44 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44F67662273D1E700CA8E44 /* NetworkManager.swift */; };
 		D4718013226D3856002B230C /* GrantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4718012226D3856002B230C /* GrantTableViewCell.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		00C6E17A913D812DC6E2EC5A /* Pods-Cornell Grant APP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cornell Grant APP.debug.xcconfig"; path = "Target Support Files/Pods-Cornell Grant APP/Pods-Cornell Grant APP.debug.xcconfig"; sourceTree = "<group>"; };
+		D420FEE1227FDB84008C5D20 /* output.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = output.json; path = ../../src/output.json; sourceTree = "<group>"; };
 		D42F3C792270E73F00645E41 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		D44F67662273D1E700CA8E44 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D4718012226D3856002B230C /* GrantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantTableViewCell.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		D4C17288226D2904005E1CD4 /* Cornell Grant APP */ = {
 			isa = PBXGroup;
 			children = (
+				D420FEE1227FDB84008C5D20 /* output.json */,
 				D4C17289226D2904005E1CD4 /* AppDelegate.swift */,
 				D4C1728B226D2904005E1CD4 /* ViewController.swift */,
 				D42F3C792270E73F00645E41 /* TabViewController.swift */,
@@ -171,6 +174,7 @@
 			files = (
 				D4C17294226D2906005E1CD4 /* LaunchScreen.storyboard in Resources */,
 				D4C17291226D2906005E1CD4 /* Assets.xcassets in Resources */,
+				D420FEE2227FDB84008C5D20 /* output.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,15 +186,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Cornell Grant APP-checkManifestLockResult.txt",
 			);
@@ -204,16 +204,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Cornell Grant APP/Pods-Cornell Grant APP-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
