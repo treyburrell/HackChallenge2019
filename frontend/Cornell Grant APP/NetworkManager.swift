@@ -29,3 +29,24 @@ class NetworkManager {
         }
     }
 }
+//    static func getGrants2() {
+//        if let path = Bundle.main.path(forResource: "output", ofType: "json") {
+//            do {
+//                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+//                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)as? [[String]]
+//                var lstgrantsfinal = [HomeGrant]()
+//                for _ in jsonResult! {
+//                    let name = jsonResult![0][0]
+//                    let org = jsonResult![0][1]
+//                    let due = jsonResult![0][2]
+//                    let amt = jsonResult![0][3]
+//                    let lstgrant = HomeGrant(Grantname: name, Grantorg: org, Grantamt: due, Grantdue: amt)
+//                    lstgrantsfinal.append(lstgrant)
+//                    return lstgrantsfinal
+//                        }
+//            } catch {
+//                print("Big L")
+//            }
+//        }
+//}
+//}
