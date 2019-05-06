@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         let g3 = HomeGrant( Grantname: "shelby", Grantorg: "North", Grantamt: "2002", Grantdue: "may 2020")
         
             homeLabel = UILabel()
-            homeLabel.text = "Below you can find the grants that we recommend you take a look at. If you want to search through our entire list, use the search tab"
+            homeLabel.text = "Below you can find the grants that we've recommended for you. If you want to search through our entire list, use the search tab"
             homeLabel.translatesAutoresizingMaskIntoConstraints = false
 //            homeLabel.lineBreakMode = .byCharWrapping
             homeLabel.numberOfLines = 4
