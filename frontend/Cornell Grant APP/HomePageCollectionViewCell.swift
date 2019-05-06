@@ -21,6 +21,7 @@ class HomePageCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         imageView = UIImageView(frame: .zero)
+        imageView.image = UIImage(named: "comp")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
